@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+venv/
+ENV/
+
+# Sensitive data & cookies
+*cookies.txt
+!cookies.example.txt
+*.cookie
+*.session
+
+# Output data
+output/
+data/
+*.log

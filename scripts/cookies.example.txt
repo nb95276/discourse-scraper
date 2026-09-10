@@ -1,0 +1,6 @@
+# Netscape HTTP Cookie File
+# https://curl.haxx.se/rfc/cookie_spec.html
+# Example cookies for Discourse scraping (Export from your browser via 'Get cookies.txt LOCALLY' extension)
+.linux.do	TRUE	/	TRUE	1899999999	cf_clearance	YOUR_CF_CLEARANCE_HERE
+linux.do	FALSE	/	TRUE	1899999999	_t	YOUR_DISCOURSE_TOKEN_HERE
+linux.do	FALSE	/	TRUE	0	_forum_session	YOUR_FORUM_SESSION_HERE
