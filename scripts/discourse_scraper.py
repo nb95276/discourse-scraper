@@ -178,6 +178,12 @@ def parse_topic_target(target: str):
 
 
 def main():
+    if sys.platform.startswith('win'):
+        try:
+            sys.stdout.reconfigure(encoding='utf-8')
+            sys.stderr.reconfigure(encoding='utf-8')
+        except Exception:
+            pass
     parser = argparse.ArgumentParser(description="Discourse Forum Topic Scraper")
     parser.add_argument("topics", nargs="+", help="Topic URLs or IDs to scrape")
     parser.add_argument("--cookie", "-c", default=None, help="Path to Netscape cookies.txt file")
@@ -198,20 +204,22 @@ def main():
                 print(f"[!] No content retrieved for topic {tid}")
                 continue
 
-            base_name = f"topic_{tid}_{re.sub(r'[^a-zA-Z0-9_\u4e00-\u9fa5]', '_', topic_data.get('title', ''))[:30]}"
+            raw_title = topic_data.get('title', '')
+            clean_title = re.sub(r'[^a-zA-Z0-9_\u4e00-\u9fa5]', '_', raw_title)[:30]
+            base_name = f"topic_{tid}_{clean_title}"
             
             if args.format in ["json", "both"]:
                 json_path = os.path.join(args.output, f"{base_name}.json")
                 with open(json_path, "w", encoding="utf-8") as f:
                     json.dump(topic_data, f, ensure_ascii=False, indent=2)
-                print(f"[✓] Saved JSON: {json_path}")
+                print(f"[OK] Saved JSON: {json_path}")
 
             if args.format in ["md", "both"]:
                 md_path = os.path.join(args.output, f"{base_name}.md")
                 md_content = DiscourseScraper.to_markdown(topic_data)
                 with open(md_path, "w", encoding="utf-8") as f:
                     f.write(md_content)
-                print(f"[✓] Saved Markdown: {md_path}")
+                print(f"[OK] Saved Markdown: {md_path}")
 
         except Exception as e:
             print(f"[!] Error processing {target}: {e}")
