@@ -141,7 +141,8 @@ class DiscourseScraper:
         ]
         tags = topic_meta.get("tags")
         if tags:
-            lines.append(f"- **标签**: {', '.join(tags)}\n")
+            tag_names = [t.get("name", str(t)) if isinstance(t, dict) else str(t) for t in tags]
+            lines.append(f"- **标签**: {', '.join(tag_names)}\n")
         lines.append("\n---\n\n")
 
         for post in topic_meta.get("posts", []):
